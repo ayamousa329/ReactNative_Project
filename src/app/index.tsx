@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   Image,
   Pressable,
@@ -7,6 +8,29 @@ import {
   Text,
   View,
 } from "react-native";
+
+const features = [
+  {
+    id: "1",
+    title: "Easy Workouts",
+    text: "Simple exercises for everyone.",
+  },
+  {
+    id: "2",
+    title: "Track Progress",
+    text: "Follow your fitness progress.",
+  },
+  {
+    id: "3",
+    title: "Reach Your Goals",
+    text: "Stay motivated and reach your goals.",
+  },
+  {
+    id: "4",
+    title: "Stay Healthy",
+    text: "Build healthy habits every day.",
+  },
+];
 
 export default function HomeScreen() {
   const [message, setMessage] = useState("");
@@ -46,25 +70,31 @@ export default function HomeScreen() {
       <View style={styles.features}>
         <Text style={styles.featuresTitle}>Our Features</Text>
 
-        <View style={styles.feature}>
-          <Text style={styles.featureTitle}>Easy Workouts</Text>
+        {features.map((item) => (
+          <View key={item.id} style={styles.feature}>
+            <Text style={styles.featureTitle}>{item.title}</Text>
 
-          <Text style={styles.featureText}>Simple exercises for everyone.</Text>
-        </View>
+            <Text style={styles.featureText}>{item.text}</Text>
+          </View>
+        ))}
+      </View>
 
-        <View style={styles.feature}>
-          <Text style={styles.featureTitle}>Track Progress</Text>
+      <View style={styles.extraSection}>
+        <Text style={styles.sectionTitle}>Why Choose FitApp?</Text>
 
-          <Text style={styles.featureText}>Follow your fitness progress.</Text>
-        </View>
+        <Text style={styles.sectionText}>
+          FitApp helps you stay active and organized. You can add workouts,
+          track your activities, and work towards your fitness goals.
+        </Text>
 
-        <View style={styles.feature}>
-          <Text style={styles.featureTitle}>Reach Your Goals</Text>
+        <Text style={styles.sectionText}>
+          Start with simple exercises and improve your fitness every day.
+        </Text>
 
-          <Text style={styles.featureText}>
-            Stay motivated and reach your goals.
-          </Text>
-        </View>
+        <Text style={styles.sectionText}>
+          Create your own workout plan and stay motivated throughout your
+          fitness journey.
+        </Text>
       </View>
     </ScrollView>
   );
@@ -172,5 +202,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginTop: 5,
+  },
+
+  extraSection: {
+    padding: 20,
+    marginBottom: 40,
+  },
+
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+
+  sectionText: {
+    fontSize: 16,
+    color: "#666",
+    lineHeight: 24,
+    marginBottom: 15,
   },
 });
