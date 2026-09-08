@@ -1,21 +1,30 @@
 # FitApp
 
-A simple and attractive fitness mobile app landing page built with React Native and Expo.
+FitApp is a simple fitness app built with React Native and Expo.
 
 ## Features
 
-- Fitness app landing page
-- Attractive design
-- Workout features section
-- Get Started interactive button
-- Responsive layout
-- Uses React Native components and StyleSheet
+- Fitness landing page
+- Bottom Tab Navigation
+- Home screen
+- Add Workout screen
+- Workouts screen
+- Form with TextInput
+- Add and display workout data
+- useState
+- useEffect
+- ScrollView
+- map()
+- FlatList
+- SectionList
+- Styled UI using StyleSheet
 
 ## Technologies
 
 - React Native
 - Expo
 - TypeScript
+- Expo Router
 - StyleSheet
 
 ## How to Run
