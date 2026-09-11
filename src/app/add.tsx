@@ -1,38 +1,50 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-
-import { WorkoutContext } from "./_layout";
+import api from "../api";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import { useWorkoutStore } from "../store/workoutStore";
 
 export default function AddWorkout() {
-  const { workouts, setWorkouts } = useContext(WorkoutContext);
+  const addWorkout = useWorkoutStore((state) => state.addWorkout);
 
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [level, setLevel] = useState("");
   const [message, setMessage] = useState("");
 
-  const addWorkout = () => {
+  const addNewWorkout = async () => {
     if (name === "" || duration === "" || level === "") {
       setMessage("Please fill all fields.");
-
       return;
     }
 
-    const newWorkout = {
-      id: Date.now().toString(),
-      name: name,
-      duration: duration,
-      level: level,
-    };
+    try {
+      const response = await api.post("/posts", {
+        name: name,
+        duration: duration,
+        level: level,
+      });
 
-    setWorkouts([...workouts, newWorkout]);
+      const newWorkout = {
+        id: response.data.id.toString(),
+        name: name,
+        duration: duration,
+        level: level,
+      };
 
-    setName("");
-    setDuration("");
-    setLevel("");
+      addWorkout(newWorkout);
 
-    setMessage("Workout added successfully!");
+      setName("");
+      setDuration("");
+      setLevel("");
+
+      setMessage("Workout added successfully!");
+    } catch (error) {
+      setMessage("Failed to add workout.");
+      console.log(error);
+    }
   };
 
   return (
@@ -40,35 +52,27 @@ export default function AddWorkout() {
       <Text style={styles.title}>Add New Workout</Text>
 
       <Text style={styles.label}>Workout Name</Text>
-
-      <TextInput
-        style={styles.input}
+      <Input
         value={name}
         onChangeText={setName}
         placeholder="Enter workout name"
       />
 
       <Text style={styles.label}>Duration</Text>
-
-      <TextInput
-        style={styles.input}
+      <Input
         value={duration}
         onChangeText={setDuration}
         placeholder="Example: 30 minutes"
       />
 
       <Text style={styles.label}>Level</Text>
-
-      <TextInput
-        style={styles.input}
+      <Input
         value={level}
         onChangeText={setLevel}
         placeholder="Example: Beginner"
       />
 
-      <Pressable style={styles.button} onPress={addWorkout}>
-        <Text style={styles.buttonText}>Add Workout</Text>
-      </Pressable>
+      <Button onPress={addNewWorkout}>Add Workout</Button>
 
       {message !== "" && <Text style={styles.message}>{message}</Text>}
     </View>
@@ -92,30 +96,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
-  },
-
-  input: {
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 12,
-    marginBottom: 18,
-    borderRadius: 10,
-    fontSize: 16,
-  },
-
-  button: {
-    backgroundColor: "#222",
-    padding: 15,
-    borderRadius: 20,
-    alignItems: "center",
-    marginTop: 5,
-  },
-
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 
   message: {
